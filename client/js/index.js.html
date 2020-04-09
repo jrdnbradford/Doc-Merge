@@ -1,0 +1,86 @@
+<script>
+
+    function buildCustomHtml(vals) {
+        // Parameter vals is header array
+        // Create select and option elements
+        let headerDiv = document.getElementById("headers");
+        let selectElem = document.createElement("select");
+        headerDiv.appendChild(selectElem);
+
+        vals.forEach((val) => {
+            let optionElem = document.createElement("option");
+            optionElem.setAttribute("name", "headers");
+            optionElem.setAttribute("value", val);
+            optionElem.setAttribute("required", true);
+
+            let headerCheck = val.replace(" ", "").toLowerCase();
+            // Make last name option default if present
+            if (headerCheck == "lastname") {
+                optionElem.setAttribute("selected", true);
+            }
+            // Enable/display send mail checkbox only if email column present
+            if (headerCheck.includes("email")) {
+                document.getElementById("share-via-drive").disabled = false;
+                document.getElementById("share-checkbox").style.display = "block";
+            }
+            optionElem.innerHTML = val;
+            selectElem.appendChild(optionElem);
+        });
+        // Remove loading heading and input for Google Doc URL
+        let loadingHeader = document.getElementById("loading");
+        loadingHeader.parentNode.removeChild(loadingHeader);
+        document.getElementById("main-form").style.display = "block";
+    }
+
+
+    function showForm(formData) {
+        // Show rest of main form w/ default settings
+        let docNameLabel = document.getElementById("template-url");
+        let mergeFolderNameInput = document.getElementById("drive-folder-name");
+        let formDefaultsElem = document.getElementById("form-default-config");
+        if (formData.url != null && formData.url != "") {
+            docNameLabel.innerHTML = "<a href='" + formData.url + "' target='_blank'>" + formData.name + "</a>";
+            mergeFolderNameInput.value = formData.folderName;
+            mergeFolderNameInput.size = formData.folderName.length;
+            formDefaultsElem.style.display = "block";
+        } else { // Hide form
+            if (formData.url == null) {
+                docNameLabel.textContent = "No Doc found at that URL";
+            } else { // If empty string
+                docNameLabel.textContent = "URL of Google Doc Template";
+            }
+            mergeFolderNameInput.value = "";
+            formDefaultsElem.style.display = "none";
+        }
+    }
+
+
+    function getFormData() {
+        // Runs on URL text input event
+        document.getElementById("template-url").textContent = "Loading...";
+        let url = document.getElementById("doc-url-input").value;
+        google.script.run.withSuccessHandler(showForm).getMergeSetup(url);
+    }
+
+
+    function runMerge() {
+        // Runs server side merge function on submit
+        let mergeType = document.querySelector("input[name='merge-choice']:checked").value;
+        let fileNameHeader = document.querySelector("option[name='headers']:checked").value;
+        let docUrl = document.querySelector("input[name='URL']").value;
+        let driveFolderName = document.querySelector("input[name='drive-folder-name']").value;
+        let shareFile = document.getElementById("share-via-drive").checked;
+        google.script.run.docMerge(driveFolderName, mergeType,fileNameHeader, docUrl, shareFile);
+
+        // Unhide section
+        document.getElementById("main-form").style.display = "none";
+        document.getElementById("merge-started").style.display = "block";
+    }
+
+
+    // Runs on open
+    document.getElementById("main-form").addEventListener("submit", runMerge);
+    document.getElementById("doc-url-input").addEventListener("input", getFormData);
+    google.script.run.withSuccessHandler(buildCustomHtml).getHeaderVals();
+
+</script>

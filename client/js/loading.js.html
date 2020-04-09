@@ -1,0 +1,19 @@
+<script>
+
+    async function loading() {
+        // Displays simple dynamic loading message until page is built
+        let loadingHeading = document.getElementById("loading");
+        let htmlContent = loadingHeading.textContent;
+        while (true) {
+            let message = htmlContent;
+            for (let i = 0; i < 6; i++) {
+                message += ".";
+                loadingHeading.innerHTML = message;
+                await new Promise(resolve => setTimeout(resolve, 300));
+            }
+        }
+    }
+
+    loading();
+
+</script>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base target="_top">
+        <!-- Inject CSS -->
+        <?!= HtmlService.createHtmlOutputFromFile("docMerge.css").getContent(); ?>
+    </head>
+    <body>
+
+        <h1>Error</h1>
+        <h2 id="loading">Getting ready</h2>
+        <p id="error"></p>
+
+        <!-- Inject JS -->
+        <?!= HtmlService.createHtmlOutputFromFile("error.js").getContent(); ?>
+        <?!= HtmlService.createHtmlOutputFromFile("loading.js").getContent(); ?>
+    </body>
+</html>

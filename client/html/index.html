@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base target="_top">
+        <!-- Inject CSS -->
+        <?!= HtmlService.createHtmlOutputFromFile("docMerge.css").getContent(); ?>
+    </head>
+    <body>
+
+        <h1>Setup</h1>
+
+        <!-- H2 removed by JS after loading is finished -->
+        <h2 id="loading">Getting ready</h2>
+
+        <!-- Form hidden by CSS until displayed by JS -->
+        <form id="main-form">
+            <!-- Text input for Google Doc URL -->
+            <div class="form-section" id="form-doc-url">
+                <label for="URL" id="template-url" class="header-label">Google Doc Template URL</label><br>
+                <input type="text" id="doc-url-input" name="URL" required><br>
+            </div>
+
+            <div id="form-default-config">
+                <!-- Text input for naming Drive folder -->
+                <div class="form-section">
+                    <label for="drive-folder-name" class="header-label">Merge Folder Name</label><br>
+                    <input type="text" id="drive-folder-name" name="drive-folder-name" required><br>
+                </div>
+
+                <!-- Radio buttons for merge type -->
+                <div class="form-section">
+                    <label for="merge-choice" class="header-label">Merge Type</label><br>
+
+                    <input type="radio" id="choice-pdf" name="merge-choice" value="PDF" checked>
+                    <label for="PDF">Merge PDFs</label><br>
+
+                    <input type="radio" id="choice-doc" name="merge-choice" value="Doc">
+                    <label for="Doc">Merge Docs</label><br>
+                </div>
+
+                <!-- Radio buttons added by JS based on sheet headers -->
+                <div id="headers" class="form-section">
+                    <label for="headers" class="header-label">File Name</label><br>
+                </div>
+
+                <!-- Checkbox for sharing files -->
+                <div id="share-checkbox" class="form-section">
+                    <input type="checkbox" id="share-via-drive" name="share-checkbox" value="share" disabled>
+                    <label for="share-checkbox" class="header-label">Share Via Drive</label>
+                </div>
+
+                <!-- Submit button for form -->
+                <div class="form-section">
+                    <button type="submit">Merge</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- H1 hidden by CSS until displayed by JS after form submit -->
+        <div id="merge-started">
+            <h2>The merge is running.</h2>
+            <p>
+                The sheet will alert you when it is complete. Until then, you can watch the
+                "Merge Status" column in your sheet to see the merge progress.
+            </p>
+            <p>
+                Do not refresh or make changes to the template Google Doc or this Google Sheet until it
+                is finished.
+            </p>
+            <button id="close-btn" onclick="google.script.host.close()">Close</button>
+        </div>
+
+        <!-- Inject client-side JS -->
+        <?!= HtmlService.createHtmlOutputFromFile("index.js").getContent(); ?>
+        <?!= HtmlService.createHtmlOutputFromFile("loading.js").getContent(); ?>
+    </body>
+</html>

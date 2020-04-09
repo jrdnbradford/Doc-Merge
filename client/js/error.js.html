@@ -1,0 +1,11 @@
+<script>
+
+    function updateHtml(cache) {
+        let loadingHeader = document.getElementById("loading");
+        loadingHeader.parentNode.removeChild(loadingHeader);
+        document.getElementById("error").textContent = cache["ERROR"];
+    }
+
+    google.script.run.withSuccessHandler(updateHtml).getUserCache(["ERROR"]);
+
+</script>

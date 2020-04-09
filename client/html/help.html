@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base target="_top">
+        <!-- Inject CSS -->
+        <?!= HtmlService.createHtmlOutputFromFile("docMerge.css").getContent(); ?>
+    </head>
+    <body>
+
+        <h1>Sheet &amp; Template Doc Setup</h1>
+        <h2>Sheet</h2>
+        <p>Copy the Google Sheet and add in your data. Ensure that the header
+        is set in the first row.</p>
+
+        <h2>Template Doc</h2>
+        <p>Your template Doc should have fields corresponding to your Google
+        Sheet's headers, surrounded by double less-than and greater-than signs
+        (for example, &lt;&lt;First Name&gt;&gt; or &lt;&lt;Zip Code&gt;&gt;).
+        These parts of your Doc will be replaced with the corresponding data
+        in the sheet. The data in the header and rows of your Google Sheet
+        should <em>not</em> have less-than and greater-than signs.</p>
+
+        <h1>Configuration Fields</h1>
+        <h2>Google Doc Template URL</h2>
+        <p>The URL to the Google Doc Template. You must have <em>at least</em>
+        view access to the Doc.</p>
+
+        <h2>Merge Folder Name</h2>
+        <p>The name of the folder that will be created in the root of your Google
+        Drive to hold your merged Docs. By default it will be set as the name of
+        the template's title plus "Merge".</p>
+
+        <h2>Merge Type</h2>
+        <p>The format of the files to be merged. By default it is set to merge
+        as PDFs.</p>
+
+        <h2>File Name</h2>
+        <p>The sheet column by which to name the merged files. The available
+        options are the names of the columns in the sheet. If the sheet has a
+        Last Name column, this will be set as the default. If you keep this default
+        setting, each merged file will be named after the data in the Last Name
+        column.</p>
+
+        <h2>Share Via Drive</h2>
+        <p>This option is only available if your Google Sheet has an email
+        column that can be used to grant view access to the resulting documents.
+        If you choose to merge as PDFs, an email notification is sent notifying
+        the recipient that access has been granted to the PDF. If you choose to
+        merge as Docs, no email notification is sent (due to a limitation with
+        Google's API), but view access is still given to the account.</p>
+
+        <h1>Quotas &amp; Limitations</h1>
+        <p>Google has <a href="https://developers.google.com/apps-script/guides/services/quotas"
+        target="_blank">quotas and limitations</a> regarding how many documents you can create
+        daily and how long scripts (like the one in this Google Sheet) can run.</p>
+
+    </body>
+</html>

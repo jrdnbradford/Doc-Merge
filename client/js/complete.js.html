@@ -1,0 +1,25 @@
+<script>
+
+    function updateHtml(cache) {
+        let runtime = (cache["RUNTIME_EXCEEDED"] === "true")
+                      ? "<li>Alotted script runtime exceeded</li>"
+                      : "<li>Completion time: " + cache["MINUTES"] + " minutes</li>";
+
+        let link = "<li>Drive Folder: <a href='" + cache["FOLDER_URL"] + "'target='_blank'>" + cache["FOLDER_NAME"] + "</a></li>";
+        //let rowTotal = "<li>" + cache["TOTAL ROWS"] + "</li>";
+        let totalMerged = "<li>Total merged: " + cache["TOTAL_MERGED"] + "</li>";
+        let totalIncomplete = "<li>Total incomplete: " + cache["TOTAL_INCOMPLETE"] + "</li>";
+        let totalErrors = "<li>Total errors: " + cache["TOTAL_ERRORS"] + "</li>";
+
+        let loadingHeader = document.getElementById("loading");
+        loadingHeader.parentNode.removeChild(loadingHeader);
+
+        document.getElementById("list").innerHTML = runtime + link + totalMerged + totalIncomplete + totalErrors;
+    }
+
+    google.script.run.withSuccessHandler(updateHtml).getUserCache([
+        "FOLDER_URL", "FOLDER_NAME", "RUNTIME_EXCEEDED", "TOTAL ROWS",
+        "TOTAL_MERGED", "TOTAL_INCOMPLETE", "TOTAL_ERRORS", "MINUTES"
+    ]);
+
+</script>
