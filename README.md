@@ -1,7 +1,7 @@
 # Doc Merge
 Google Sheet-bound document merge application built with Google Apps Script.
 
-## Recommended OAuth Scopes:
+## Recommended OAuth Scopes
 ```json
 {
     "oauthScopes": [
