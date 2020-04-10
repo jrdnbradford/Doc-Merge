@@ -84,6 +84,7 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
             totalErrors++;
             mergeStatusCell.setValue("Error");
             SpreadsheetApp.flush();
+            continue;
         }
 
         // Perform replacement in copied template Doc
