@@ -75,10 +75,10 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
 
         let fileName = row[fileNameIndex];
         try { // Copy template Doc
-        var docCopyFile = (mergeType == "PDF")
-                          ? templateFile.makeCopy(tempDocFolder)
-                          : templateFile.makeCopy(mergeFolder);
-        var newDoc = DocumentApp.openById(docCopyFile.getId()).setName(fileName);
+            var docCopyFile = (mergeType == "PDF")
+                            ? templateFile.makeCopy(tempDocFolder)
+                            : templateFile.makeCopy(mergeFolder);
+            var newDoc = DocumentApp.openById(docCopyFile.getId()).setName(fileName);
         } catch(e) {
             Logger.log(e);
             totalErrors++;
