@@ -3,11 +3,11 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
 
     if (logTroubleShootingInfo) {
         Logger.log(
-            "Drive folder name: " + folderName + "\n" +
-            "Merge type: " + mergeType + "\n" +
-            "File name header: " + fileNameHeader + "\n" +
-            "Template Doc URL: " + templateDocUrl + "\n" +
-            "Share file: " + shareFile
+            "Drive folder name: " + folderName +
+            "\nMerge type: " + mergeType +
+            "\nFile name header: " + fileNameHeader +
+            "\nTemplate Doc URL: " + templateDocUrl +
+            "\nShare file: " + shareFile
         );
     }
 
@@ -28,8 +28,8 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
     let headerVals = userCache.get("HEADER_VALUES").split("|");
     if (logTroubleShootingInfo) {
         Logger.log(
-            "Header: " + headerVals + "\n" +
-            "Number of rows: " + dataVals.length
+            "Header: " + headerVals +
+            "\nNumber of rows: " + dataVals.length
         );
     }
 
@@ -165,13 +165,13 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
 
     if (logTroubleShootingInfo) {
         Logger.log(
-            "Runtime exceeded: " + runtimeExceeded + "\n" +
-            "Merge folder URL: " + mergeFolderUrl + "\n" +
-            "Total rows: " + dataVals.length + "\n" +
-            "Total merged: " + totalMerged + "\n" +
-            "Total incomplete: " + totalIncomplete + "\n" +
-            "Total errors: " + totalErrors + "\n" +
-            "Completion time in minutes: " + minutes
+            "Runtime exceeded: " + runtimeExceeded +
+            "\nMerge folder URL: " + mergeFolderUrl +
+            "\nTotal rows: " + dataVals.length +
+            "\nTotal merged: " + totalMerged +
+            "\nTotal incomplete: " + totalIncomplete +
+            "\nTotal errors: " + totalErrors +
+            "\nCompletion time in minutes: " + minutes
         );
     }
 }
