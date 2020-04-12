@@ -80,7 +80,7 @@ function getMergeSetup(url) {
     } catch(e) {
         try {
             doc = DocumentApp.openById(url);
-        } catch (e) {
+        } catch(e) {
             return {url: null};
         }
     }
