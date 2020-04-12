@@ -11,7 +11,7 @@ function validateData(data) {
     // Parameter data is array of arrays
     // Function trims whitespace and checks for incomplete rows
     data.forEach((row) => {
-        let mergeStatus = row[row.length - 1];
+        const mergeStatus = row[row.length - 1];
         for (let i = 0; i < row.length - 1; i++) {
             row[i] = row[i].trim();
             if (row[i] === "") {
@@ -38,9 +38,9 @@ function getUserCache(keys) {
 function getEmailIndex(headers) {
     // Returns index of email column
     for (let i = 0; i <headers.length; i++) {
-        let includesEmail = headers[i].replace(" ", "").toLowerCase().includes("email");
+        const includesEmail = headers[i].replace(" ", "").toLowerCase().includes("email");
         if (includesEmail) {
-            let emailIndex = headers.indexOf(headers[i]);
+            const emailIndex = headers.indexOf(headers[i]);
             return emailIndex;
         }
     }
@@ -50,10 +50,10 @@ function getEmailIndex(headers) {
 function getHeaderVals() {
     // Adds merge status column
     // Get, cache, and return header values from active sheet
-    let lastCol = activeSheet.getLastColumn();
-    let lastColVal = activeSheet.getRange(1, lastCol).getValue();
+    const lastCol = activeSheet.getLastColumn();
+    const lastColVal = activeSheet.getRange(1, lastCol).getValue();
     if (lastColVal != "Merge Status") {
-        let mergeCell = activeSheet.getRange(1, lastCol + 1);
+        const mergeCell = activeSheet.getRange(1, lastCol + 1);
         mergeCell.setValue("Merge Status");
     }
 
@@ -74,18 +74,19 @@ function getMergeSetup(url) {
     if (url == "") {
         return {url: ""};
     }
+    let doc;
     try {
-        var doc = DocumentApp.openByUrl(url);
+        doc = DocumentApp.openByUrl(url);
     } catch(e) {
         try {
-            var doc = DocumentApp.openById(url);
+            doc = DocumentApp.openById(url);
         } catch (e) {
             return {url: null};
         }
     }
-    let docName = doc.getName();
-    let docUrl = doc.getUrl();
-    let folderName = getMergeFolderName(docName + " Merge");
+    const docName = doc.getName();
+    const docUrl = doc.getUrl();
+    const folderName = getMergeFolderName(docName + " Merge");
     return {name: docName, url: docUrl, folderName: folderName};
 }
 
@@ -95,8 +96,8 @@ function getMergeFolderName(name) {
     // Parameter name is a string
     // Check if folder already exists, cache and return folder name
     let fileIndex = 0;
-    let originalName = name;
-    let driveRoot = DriveApp.getRootFolder();
+    const originalName = name;
+    const driveRoot = DriveApp.getRootFolder();
     let identicallyNamedFolders = driveRoot.getFoldersByName(name);
     while (identicallyNamedFolders.hasNext()) {
         fileIndex++;

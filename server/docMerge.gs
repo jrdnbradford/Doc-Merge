@@ -1,5 +1,5 @@
 function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFile) {
-    let start = new Date();
+    const start = new Date();
 
     if (logTroubleShootingInfo) {
         Logger.log(
@@ -11,9 +11,11 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
         );
     }
 
+    let templateDoc;
+    let templateFile;
     try { // Get template Doc as Document and File objects
-        var templateDoc = DocumentApp.openByUrl(templateDocUrl);
-        var templateFile = DriveApp.getFileById(templateDoc.getId());
+        templateDoc = DocumentApp.openByUrl(templateDocUrl);
+        templateFile = DriveApp.getFileById(templateDoc.getId());
     } catch(e) {
         Logger.log(e);
         userCache.put("ERROR", e);
@@ -22,10 +24,10 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
     }
 
     // Get header and data values
-    let lastRow = activeSheet.getLastRow();
-    let lastCol = activeSheet.getLastColumn();
+    const lastRow = activeSheet.getLastRow();
+    const lastCol = activeSheet.getLastColumn();
+    const headerVals = userCache.get("HEADER_VALUES").split("|");
     let dataVals = activeSheet.getSheetValues(2, 1, lastRow - 1, lastCol);
-    let headerVals = userCache.get("HEADER_VALUES").split("|");
     if (logTroubleShootingInfo) {
         Logger.log(
             "Header: " + headerVals +
@@ -35,30 +37,31 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
 
     validateData(dataVals); // Validate rows
 
+    let mergeFolder;
+    let tempDocFolder;
     try { // Create directory structure
-        var mergeFolder = DriveApp.createFolder(folderName)
-                                  .setDescription(mergeFolderDescription);
-        var tempDocFolder = (mergeType == "PDF")
-                            ? mergeFolder.createFolder("Temp Docs")
-                                         .setDescription(tempDocFolderDescription)
-                            : undefined;
+        mergeFolder = DriveApp.createFolder(folderName)
+                              .setDescription(mergeFolderDescription);
+        tempDocFolder = (mergeType == "PDF")
+                        ? mergeFolder.createFolder("Temp Docs")
+                                     .setDescription(tempDocFolderDescription)
+                        : undefined;
     } catch(e) {
         Logger.log(e);
         userCache.put("ERROR", e);
         serveError();
         return;
     }
-    let mergeFolderUrl = mergeFolder.getUrl();
+    const mergeFolderUrl = mergeFolder.getUrl();
 
     // Setup for main loop
     let [runtimeExceeded, totalMerged, totalIncomplete, totalErrors, rowIndex] = [false, 0, 0, 0, 1];
-    let fileNameIndex = headerVals.indexOf(fileNameHeader);
-    let emailIndex = shareFile ? getEmailIndex(headerVals) : undefined;
-    let replacementTasks = getReplacementTasks(templateDoc, headerVals);
+    const fileNameIndex = headerVals.indexOf(fileNameHeader);
+    const emailIndex = shareFile ? getEmailIndex(headerVals) : undefined;
+    const replacementTasks = getReplacementTasks(templateDoc, headerVals);
 
     for (const row of dataVals) { // Create new Docs/PDFs
         rowIndex++;
-
         let mergeStatusCell = activeSheet.getRange(rowIndex, lastCol);
 
         let mergeStatus = row[row.length - 1]; // Skip certain rows
@@ -73,12 +76,14 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
             continue;
         }
 
+        let docCopyFile;
+        let newDoc;
         let fileName = row[fileNameIndex];
         try { // Copy template Doc
-            var docCopyFile = (mergeType == "PDF")
-                            ? templateFile.makeCopy(tempDocFolder)
-                            : templateFile.makeCopy(mergeFolder);
-            var newDoc = DocumentApp.openById(docCopyFile.getId()).setName(fileName);
+            docCopyFile = (mergeType == "PDF")
+                          ? templateFile.makeCopy(tempDocFolder)
+                          : templateFile.makeCopy(mergeFolder);
+            newDoc = DocumentApp.openById(docCopyFile.getId()).setName(fileName);
         } catch(e) {
             Logger.log(e);
             totalErrors++;
@@ -89,12 +94,13 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
 
         // Perform replacement in copied template Doc
         for (const section in replacementTasks) {
+            let replacementSection;
             if (section == "header") {
-                var replacementSection = newDoc.getHeader();
+                replacementSection = newDoc.getHeader();
             } else if (section == "body") {
-                var replacementSection = newDoc.getBody();
+                replacementSection = newDoc.getBody();
             } else if (section == "footer") {
-                var replacementSection = newDoc.getFooter();
+                replacementSection = newDoc.getFooter();
             }
             let dataIndices = replacementTasks[section];
             dataIndices.forEach((index) => {
@@ -105,10 +111,11 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
         }
         newDoc.saveAndClose();
 
+        let pdfFile;
         if (mergeType == "PDF") {
             try { // Create PDF from each new Doc
                 let pdfBlob = newDoc.getAs("application/pdf");
-                var pdfFile = mergeFolder.createFile(pdfBlob);
+                pdfFile = mergeFolder.createFile(pdfBlob);
             } catch(e) {
                 Logger.log(e);
                 totalErrors++;
@@ -145,9 +152,9 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
         }
     }
 
-    let end = new Date(); // Time completion
-    let finishTime = end - start; // MS
-    let minutes = Math.round((finishTime / 60000) * 100) / 100;
+    const end = new Date(); // Time completion
+    const finishTime = end - start; // MS
+    const minutes = Math.round((finishTime / 60000) * 100) / 100;
 
     // Cache data needed for complete.html
     userCache.putAll({ // Requires strings
