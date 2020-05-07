@@ -1,4 +1,5 @@
 function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFile) {
+    serveRunning()
     const start = new Date();
 
     if (logTroubleShootingInfo) {
