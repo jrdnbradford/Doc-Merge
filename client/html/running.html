@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base target="_top">
+        <!-- Inject CSS -->
+        <?!= HtmlService.createHtmlOutputFromFile("docMerge.css").getContent(); ?>
+    </head>
+    <body>
+
+        <div id="merge-started">
+            <h2>The merge is running.</h2>
+            <p>
+                The sheet will alert you when it is complete. Until then, you can watch the
+                "Merge Status" column in your sheet to see the merge progress.
+            </p>
+            <p>
+                Do not refresh or make changes to the template Google Doc or this Google Sheet until it
+                is finished.
+            </p>
+            <button id="close-btn" onclick="google.script.host.close()">Close</button>
+        </div>
+
+    </body>
+</html>

@@ -13,7 +13,7 @@
         <h2 id="loading">Getting ready</h2>
 
         <!-- Form hidden by CSS until displayed by JS -->
-        <form id="main-form">
+        <form id="main-form" target="_self">
             <!-- Text input for Google Doc URL -->
             <div class="form-section" id="form-doc-url">
                 <label for="URL" id="template-url" class="header-label">Google Doc Template URL</label><br>
@@ -55,20 +55,6 @@
                 </div>
             </div>
         </form>
-
-        <!-- H1 hidden by CSS until displayed by JS after form submit -->
-        <div id="merge-started">
-            <h2>The merge is running.</h2>
-            <p>
-                The sheet will alert you when it is complete. Until then, you can watch the
-                "Merge Status" column in your sheet to see the merge progress.
-            </p>
-            <p>
-                Do not refresh or make changes to the template Google Doc or this Google Sheet until it
-                is finished.
-            </p>
-            <button id="close-btn" onclick="google.script.host.close()">Close</button>
-        </div>
 
         <!-- Inject client-side JS -->
         <?!= HtmlService.createHtmlOutputFromFile("index.js").getContent(); ?>

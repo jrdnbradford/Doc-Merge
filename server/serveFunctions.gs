@@ -1,6 +1,14 @@
 function serveIndex() {
     let html = HtmlService.createTemplateFromFile("index")
-                  .evaluate().setWidth(350).setHeight(550);
+                  .evaluate().setWidth(350).setHeight(450);
+
+    SpreadsheetApp.getUi().showModalDialog(html, appTitle);
+}
+
+
+function serveRunning() {
+    let html = HtmlService.createTemplateFromFile("running")
+                  .evaluate().setWidth(350).setHeight(200);
 
     SpreadsheetApp.getUi().showModalDialog(html, appTitle);
 }
