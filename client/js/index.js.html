@@ -74,7 +74,10 @@
 
 
     // Runs on open
-    document.getElementById("main-form").addEventListener("submit", runMerge);
+    document.getElementById("main-form").addEventListener("submit", function(e) {
+        e.preventDefault()
+        runMerge()
+    });
     document.getElementById("doc-url-input").addEventListener("input", getFormData);
     google.script.run.withSuccessHandler(buildCustomHtml).getHeaderVals();
 
