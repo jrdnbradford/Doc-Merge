@@ -126,15 +126,12 @@ function getReplacementTasks(template, headers) {
             if (section.findText("<<" + headers[i] + ">>")) {
                 if (sectionType == "HEADER_SECTION") {
                     tasks.header.push(i);
-                    continue;
                 }
-                if (sectionType == "BODY_SECTION") {
+                else if (sectionType == "BODY_SECTION") {
                     tasks.body.push(i);
-                    continue;
                 }
-                if (sectionType == "FOOTER_SECTION") {
+                else if (sectionType == "FOOTER_SECTION") {
                     tasks.footer.push(i);
-                    continue;
                 }
             }
         }
