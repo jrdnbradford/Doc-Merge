@@ -13,7 +13,9 @@ function validateData(data) {
     data.forEach((row) => {
         const mergeStatus = row[row.length - 1];
         for (let i = 0; i < row.length - 1; i++) {
-            row[i] = row[i].trim();
+            if (typeof row[i] == "string") {
+                row[i] = row[i].trim();
+            }
             if (row[i] === "") {
                 if (mergeStatus != "Incomplete Data") {
                     row[row.length - 1] = "Incomplete Data";
