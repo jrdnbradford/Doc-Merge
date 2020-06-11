@@ -39,7 +39,7 @@ function getUserCache(keys) {
 
 function getEmailIndex(headers) {
     // Returns index of email column
-    for (let i = 0; i <headers.length; i++) {
+    for (let i = 0; i < headers.length; i++) {
         if (typeof headers[i] == "string") {
             const includesEmail = headers[i].replace(" ", "").toLowerCase().includes("email");
             if (includesEmail) {
