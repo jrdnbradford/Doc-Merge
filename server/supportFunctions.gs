@@ -40,10 +40,11 @@ function getUserCache(keys) {
 function getEmailIndex(headers) {
     // Returns index of email column
     for (let i = 0; i <headers.length; i++) {
-        const includesEmail = headers[i].replace(" ", "").toLowerCase().includes("email");
-        if (includesEmail) {
-            const emailIndex = headers.indexOf(headers[i]);
-            return emailIndex;
+        if (typeof headers[i] == "string") {
+            const includesEmail = headers[i].replace(" ", "").toLowerCase().includes("email");
+            if (includesEmail) {
+                return headers.indexOf(headers[i]);
+            }
         }
     }
 }
@@ -61,7 +62,9 @@ function getHeaderVals() {
 
     let headerVals = activeSheet.getSheetValues(1, 1, 1, activeSheet.getLastColumn())[0];
     for (let i = 0; i < headerVals.length; i++) {
-        headerVals[i] = headerVals[i].trim();
+        if (typeof headerVals[i] == "string") {
+            headerVals[i] = headerVals[i].trim();
+        }
     }
     let headerValStr = headerVals.join("|");
     userCache.put("HEADER_VALUES", headerValStr);

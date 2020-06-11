@@ -13,18 +13,20 @@
             optionElem.setAttribute("value", val);
             optionElem.setAttribute("required", true);
 
-            let headerCheck = val.replace(" ", "").toLowerCase();
-            // Make last name option default if present
-            if (headerCheck == "lastname") {
-                optionElem.setAttribute("selected", true);
+            if (typeof val == "string") {
+                let headerCheck = val.replace(" ", "").toLowerCase();
+                // Make last name option default if present
+                if (headerCheck == "lastname") {
+                    optionElem.setAttribute("selected", true);
+                }
+                // Enable/display send mail checkbox only if email column present
+                if (headerCheck.includes("email")) {
+                    document.getElementById("share-via-drive").disabled = false;
+                    document.getElementById("share-checkbox").style.display = "block";
+                }
+                optionElem.innerHTML = val;
+                selectElem.appendChild(optionElem);
             }
-            // Enable/display send mail checkbox only if email column present
-            if (headerCheck.includes("email")) {
-                document.getElementById("share-via-drive").disabled = false;
-                document.getElementById("share-checkbox").style.display = "block";
-            }
-            optionElem.innerHTML = val;
-            selectElem.appendChild(optionElem);
         });
         // Remove loading heading and input for Google Doc URL
         let loadingHeader = document.getElementById("loading");
