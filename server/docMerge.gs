@@ -18,7 +18,9 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
         templateDoc = DocumentApp.openByUrl(templateDocUrl);
         templateFile = DriveApp.getFileById(templateDoc.getId());
     } catch(e) {
-        Logger.log(e);
+        if (logTroubleShootingInfo) {
+            Logger.log(e);
+        }
         userCache.put("ERROR", e);
         serveError();
         return;
@@ -48,7 +50,9 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
                                      .setDescription(tempDocFolderDescription)
                         : undefined;
     } catch(e) {
-        Logger.log(e);
+        if (logTroubleShootingInfo) {
+            Logger.log(e);
+        }
         userCache.put("ERROR", e);
         serveError();
         return;
@@ -63,6 +67,9 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
 
     for (const row of dataVals) { // Create new Docs/PDFs
         rowIndex++;
+        if (logTroubleShootingInfo) {
+            Logger.log(rowIndex, ":", row);
+        }
         let mergeStatusCell = activeSheet.getRange(rowIndex, lastCol);
 
         let mergeStatus = row[row.length - 1]; // Skip certain rows
@@ -86,7 +93,9 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
                           : templateFile.makeCopy(mergeFolder);
             newDoc = DocumentApp.openById(docCopyFile.getId()).setName(fileName);
         } catch(e) {
-            Logger.log(e);
+            if (logTroubleShootingInfo) {
+                Logger.log(e);
+            }
             totalErrors++;
             mergeStatusCell.setValue("Error");
             SpreadsheetApp.flush();
@@ -118,7 +127,9 @@ function docMerge(folderName, mergeType, fileNameHeader, templateDocUrl, shareFi
                 let pdfBlob = newDoc.getAs("application/pdf");
                 pdfFile = mergeFolder.createFile(pdfBlob);
             } catch(e) {
-                Logger.log(e);
+                if (logTroubleShootingInfo) {
+                    Logger.log(e);
+                }
                 totalErrors++;
                 mergeStatusCell.setValue("Error");
                 SpreadsheetApp.flush();

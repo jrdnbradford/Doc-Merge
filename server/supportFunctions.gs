@@ -27,7 +27,6 @@ function validateData(data) {
             row[row.length - 1] = "";
         }
     });
-    Logger.log("Data validation complete");
 }
 
 
