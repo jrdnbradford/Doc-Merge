@@ -1,5 +1,7 @@
 # Doc Merge
-Google Sheet-bound document merge application built with Google Apps Script.
+Google Sheet-bound document merge application built with Google Apps Script. 
+
+The files in this repo are meant to be bound to a Google Sheet container. Information about data used for merging that could be helpful for troubleshooting issues is logged in the [Google Account](https://script.google.com/home/executions) that runs the application. This default behavior can be changed by switching the *logTroubleShootingInfo* boolean variable in [globals.gs](server/globals.gs) to *false*.
 
 ## Recommended OAuth Scopes
 ```json
